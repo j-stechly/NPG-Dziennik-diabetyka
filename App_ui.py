@@ -21,9 +21,12 @@ class Ui_MainWindow(object):
         self.label = QtWidgets.QLabel(parent=self.centralwidget)
         self.label.setGeometry(QtCore.QRect(50, 20, 111, 21))
         self.label.setObjectName("label")
+        self.pushButton_2 = QtWidgets.QPushButton(parent=self.centralwidget)
+        self.pushButton_2.setGeometry(QtCore.QRect(250, 50, 93, 28))
+        self.pushButton_2.setObjectName("pushButton_2")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 537, 18))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 537, 26))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
@@ -38,6 +41,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.pushButton.setText(_translate("MainWindow", "OK"))
         self.label.setText(_translate("MainWindow", "Dziennik diabetyka"))
+        self.pushButton_2.setText(_translate("MainWindow", "PushButton"))
 
 
 if __name__ == "__main__":
