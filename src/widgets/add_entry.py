@@ -1,13 +1,14 @@
 from PyQt6.QtWidgets import QDialog
 from PyQt6.QtCore import QDate, QTime
 
-from add_entry_ui import Ui_Dialog
+from src.measurments import SugarMeasurementsStore
+from ui.add_entry_ui import Ui_add_entry
 
 
 class AddEntryDialog(QDialog):
     def __init__(self):
         super().__init__()
-        self.ui = Ui_Dialog()
+        self.ui = Ui_add_entry()
         self.ui.setupUi(self)
 
         self.ui.dateInput.setDate(QDate.currentDate())

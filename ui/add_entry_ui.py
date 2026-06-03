@@ -9,27 +9,27 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Dialog(object):
-    def setupUi(self, Dialog):
-        Dialog.setObjectName("Dialog")
-        Dialog.resize(312, 244)
-        self.sugarLevelInput = QtWidgets.QDoubleSpinBox(parent=Dialog)
+class Ui_add_entry(object):
+    def setupUi(self, add_entry):
+        add_entry.setObjectName("add_entry")
+        add_entry.resize(312, 244)
+        self.sugarLevelInput = QtWidgets.QDoubleSpinBox(parent=add_entry)
         self.sugarLevelInput.setGeometry(QtCore.QRect(40, 20, 231, 41))
         self.sugarLevelInput.setObjectName("sugarLevelInput")
-        self.dateInput = QtWidgets.QDateEdit(parent=Dialog)
+        self.dateInput = QtWidgets.QDateEdit(parent=add_entry)
         self.dateInput.setGeometry(QtCore.QRect(40, 60, 141, 41))
         self.dateInput.setObjectName("dateInput")
-        self.timeInput = QtWidgets.QTimeEdit(parent=Dialog)
+        self.timeInput = QtWidgets.QTimeEdit(parent=add_entry)
         self.timeInput.setGeometry(QtCore.QRect(180, 60, 91, 41))
         self.timeInput.setObjectName("timeInput")
-        self.addButton = QtWidgets.QPushButton(parent=Dialog)
+        self.addButton = QtWidgets.QPushButton(parent=add_entry)
         self.addButton.setGeometry(QtCore.QRect(100, 130, 111, 71))
         self.addButton.setObjectName("addButton")
 
-        self.retranslateUi(Dialog)
-        QtCore.QMetaObject.connectSlotsByName(Dialog)
+        self.retranslateUi(add_entry)
+        QtCore.QMetaObject.connectSlotsByName(add_entry)
 
-    def retranslateUi(self, Dialog):
+    def retranslateUi(self, add_entry):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.addButton.setText(_translate("Dialog", "DODAJ"))
+        add_entry.setWindowTitle(_translate("add_entry", "Dialog"))
+        self.addButton.setText(_translate("add_entry", "DODAJ"))
