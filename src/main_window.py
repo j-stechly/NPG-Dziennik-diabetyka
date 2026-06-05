@@ -29,10 +29,9 @@ class MainWindow(QMainWindow):
         self.ui.add_entry_button.clicked.connect(self.open_add_entry_dialog)
 
         # Przykład połączenia do sygnału zmiany listy
-        self.store.measurements_changed.connect(lambda measurements: print(f"Measurements changed!: New Size = {len(measurements)}"))
-        # Przykładowo obiekt dokonuję zmiany
-        self.store.add_measurement(SugarMeasurement(400, datetime.now()))
+        # self.store.measurements_changed.connect(lambda: print(f"Measurements changed!: New Size = {len(self.store.measurements)}"))
         # W konsoli widać powiadomienie o zmianie rozmiaru
+        # self.store.add_measurement(SugarMeasurement(400.0, datetime.now()))
 
     def open_add_entry_dialog(self):
         dialog = AddEntryDialog()

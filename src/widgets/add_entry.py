@@ -1,7 +1,6 @@
 from PyQt6.QtWidgets import QDialog
 from PyQt6.QtCore import QDate, QTime
 
-from src.measurments import SugarMeasurementsStore
 from ui.add_entry_ui import Ui_add_entry
 
 

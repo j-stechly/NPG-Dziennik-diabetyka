@@ -1,2 +1,10 @@
+# Python virtual environment
 /.venv
-pomiary.csv
+/venv
+/env
+
+# Pycache
+/__pycache__
+
+# Measurements data files
+*.csv

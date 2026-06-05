@@ -1,5 +1,7 @@
+import csv
+import os
 from datetime import datetime
-from typing import Collection
+from typing import List
 
 from PyQt6.QtCore import pyqtSignal, QObject
 
@@ -13,27 +15,27 @@ class SugarMeasurement:
             :param level: Level of sugar in blood
             :param when: datetime associated with measurement
         """
-        self.level_ = level
+        self.sugar_level = level
         self.when = when
 
-class SugarMeasurementsStore(QObject):
-    # Signal responsible for announcing change in measurement list
-    measurements_changed = pyqtSignal(list)
+SAVED_MEASUREMENTS_PATH = "saved_measurements.csv"
 
-    def __init__(self, load_data: bool = True):
+class SugarMeasurementsStore(QObject):
+    # Signal responsible for announcing change in measurements list
+    measurements_changed = pyqtSignal()
+
+    def __init__(self):
         """
-            Stores sugar level measurements
+            Stores sugar level measurements.
+            Load measurements data from disk at object creation.
 
             :param self: Object
-            :param load_data: If True load data from disk
         """
         super().__init__()
-        self._measurements = []
-        if load_data:
-            self.load_data()
+        self._measurements = read_measurements_from_csv(SAVED_MEASUREMENTS_PATH)
 
     @property
-    def measurements(self) -> Collection[SugarMeasurement]:
+    def measurements(self) -> List[SugarMeasurement]:
         """
             Creates shallow copy of stored measurements.
 
@@ -43,16 +45,17 @@ class SugarMeasurementsStore(QObject):
         return self._measurements.copy()
 
     @measurements.setter
-    def measurements(self, measurements: Collection[SugarMeasurement]) -> None:
+    def measurements(self, measurements: List[SugarMeasurement]) -> None:
         """
             Sets new measurements
 
             :param self: Object
             :param measurements: List of new measurements
         """
-        self._measurements = measurements
-        self.measurements_changed.emit(measurements)
-
+        if measurements is not self._measurements:
+            self._measurements = measurements
+            self.measurements_changed.emit()
+            write_measurements_to_csv(SAVED_MEASUREMENTS_PATH, measurements)
 
     def add_measurement(self, measurement: SugarMeasurement) -> None:
         """
@@ -61,7 +64,8 @@ class SugarMeasurementsStore(QObject):
             :param measurement: Measurement to add
         """
         self._measurements.append(measurement)
-        self.measurements_changed.emit(self._measurements.copy())
+        self.measurements_changed.emit()
+        write_measurements_to_csv(SAVED_MEASUREMENTS_PATH, [measurement], True)
 
     def remove_measurement(self, measurement: SugarMeasurement) -> None:
         """
@@ -69,20 +73,63 @@ class SugarMeasurementsStore(QObject):
 
             :param measurement: Measurement to remove
         """
-        if measurement in self.measurements:
+        if measurement in self._measurements:
             self._measurements.remove(measurement)
-            self.measurements_changed.emit(self._measurements.copy())
+            self.measurements_changed.emit()
+            write_measurements_to_csv(SAVED_MEASUREMENTS_PATH, self._measurements)
 
-    def load_data(self) -> None:
-        """Loads data from disk."""
-        # Mock data
-        self._measurements = [
-            SugarMeasurement(100, datetime.now()),
-            SugarMeasurement(200, datetime.now()),
-            SugarMeasurement(300, datetime.now())
-        ]
-        self.measurements_changed.emit(self._measurements.copy())
+def read_measurements_from_csv(path: str) -> List[SugarMeasurement]:
+    """
+        Read measurements from csv file at specified path
 
-    def save_data(self) -> None:
-        """Saves data to disk."""
-        pass
+        :param path: Path to load data from
+        :return: List of measurements
+    """
+    if not os.path.isfile(path):
+        return []
+
+    with open(path, "r") as file:
+        data = file.readlines()
+
+        measurements: list[SugarMeasurement] = []
+        for row in data[1:]:
+            try:
+                split = row.rfind(",")
+                when = datetime.strptime(row[:split], "%d.%m.%Y,%H:%M")
+                sugar_level = float(row[split + 1:])
+            except (IndexError, ValueError):
+                print(f"Failed to parse row[{row}] from path[{path}]")
+                continue
+
+            m = SugarMeasurement(sugar_level, when)
+            measurements.append(m)
+
+        return measurements
+
+def write_measurements_to_csv(path: str, measurements: List[SugarMeasurement], append: bool = False) -> None:
+    """
+        Writes measurements data to disk at specified path.
+
+        :param path: Path to save data to
+        :param measurements: Measurements to save
+        :param append: If True appends to end of file instead of rewriting
+    """
+    data = [
+        {
+            "date": m.when.date().strftime("%d.%m.%Y"),
+            "time": m.when.time().strftime("%H:%M"),
+            "sugar_level": m.sugar_level
+        }
+        for m in measurements
+    ]
+
+    file_exists = os.path.isfile(path)
+    mode = "a" if append else "w"
+    with open(path, mode=mode, newline="", encoding="utf-8") as file:
+        fields = ["date", "time", "sugar_level"]
+        writer = csv.DictWriter(file, fieldnames=fields)
+
+        if not file_exists or not append:
+            writer.writeheader()
+
+        writer.writerows(data)
