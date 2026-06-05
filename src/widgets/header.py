@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import QWidget
 from src.measurments import SugarMeasurementsStore
 from ui.header_ui import Ui_haeder
 
+
 class Header(QWidget):
     def __init__(self, store: SugarMeasurementsStore):
         super().__init__()
