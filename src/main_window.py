@@ -1,9 +1,6 @@
-import sys
-import csv
-import os
 from datetime import datetime
 
-from PyQt6.QtWidgets import QApplication, QMainWindow, QDialog
+from PyQt6.QtWidgets import QMainWindow, QDialog
 
 from src.widgets.graph import Graph
 from src.widgets.header import Header
@@ -39,12 +36,3 @@ class MainWindow(QMainWindow):
         if dialog.exec() == QDialog.DialogCode.Accepted:
             dane = dialog.nowy_wpis
             # Wykonać dodanie danych do store'ga
-
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-
-    window = MainWindow()
-    window.show()
-
-    sys.exit(app.exec())
