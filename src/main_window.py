@@ -25,8 +25,6 @@ class MainWindow(QMainWindow):
         self.ui.graph_layout.addWidget(Graph(self.store))
 
         self.ui.add_entry_button.clicked.connect(self.open_add_entry_dialog)
-        self.store = SugarMeasurementsStore()
-
         # Przykład połączenia do sygnału zmiany listy
         # self.store.measurements_changed.connect(lambda: print(f"Measurements changed!: New Size = {len(self.store.measurements)}"))
         # W konsoli widać powiadomienie o zmianie rozmiaru
@@ -37,4 +35,10 @@ class MainWindow(QMainWindow):
 
         if dialog.exec() == QDialog.DialogCode.Accepted:
             dane = dialog.nowy_wpis
-            # Wykonać dodanie danych do store'ga
+
+            datetime_str = f"{dane['data']} {dane['godzina']}"
+
+            measurement_time = datetime.strptime(datetime_str, "%d.%m.%Y %H:%M")
+
+            new_measurement = SugarMeasurement(level=dane['cukier'], when=measurement_time)
+            self.store.add_measurement(new_measurement)
