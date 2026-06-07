@@ -10,6 +10,7 @@ from src.widgets.add_entry import AddEntryDialog
 from src.measurments import SugarMeasurement, SugarMeasurementsStore
 
 
+
 class MainWindow(QMainWindow):
     """Main window of application"""
     def __init__(self):
@@ -24,6 +25,7 @@ class MainWindow(QMainWindow):
         self.ui.graph_layout.addWidget(Graph(self.store))
 
         self.ui.add_entry_button.clicked.connect(self.open_add_entry_dialog)
+        self.store = SugarMeasurementsStore()
 
         # Przykład połączenia do sygnału zmiany listy
         # self.store.measurements_changed.connect(lambda: print(f"Measurements changed!: New Size = {len(self.store.measurements)}"))
