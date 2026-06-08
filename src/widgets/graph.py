@@ -3,6 +3,8 @@ from PyQt6.QtWidgets import QWidget
 from PyQt6.QtGui import QPalette, QFont
 
 import pyqtgraph as pg
+
+from src import measurments
 from src.measurments import SugarMeasurementsStore
 from ui.graph_ui import Ui_graph
 
@@ -79,9 +81,11 @@ class Graph(QWidget):
         from_date = self.ui.from_dateEdit.date().toPyDate()
         to_date = self.ui.to_dateEdit.date().toPyDate()
 
+        measurements = self.store.measurements
+        measurements.sort(key=lambda x: x.when)
         x_data = []
         y_data = []
-        for m in self.store.measurements:
+        for m in measurements:
             if from_date <= m.when.date() <= to_date:
                 x_data.append(m.when.timestamp())
                 y_data.append(m.sugar_level)
