@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file '.\footer.ui'
+# Form implementation generated from reading ui file 'footer.ui'
 #
 # Created by: PyQt6 UI code generator 6.11.0
 #
@@ -12,9 +12,11 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_footer(object):
     def setupUi(self, footer):
         footer.setObjectName("footer")
-        footer.resize(889, 100)
-        footer.setMinimumSize(QtCore.QSize(0, 100))
+        footer.resize(684, 62)
+        footer.setMinimumSize(QtCore.QSize(0, 0))
+        footer.setMaximumSize(QtCore.QSize(16777215, 80))
         self.horizontalLayout = QtWidgets.QHBoxLayout(footer)
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setObjectName("horizontalLayout")
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
