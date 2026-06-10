@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'main_window.ui'
+# Form implementation generated from reading ui file '.\main_window.ui'
 #
 # Created by: PyQt6 UI code generator 6.11.0
 #
@@ -17,19 +17,6 @@ class Ui_main_window(object):
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.header_frame = QtWidgets.QFrame(parent=self.centralwidget)
-        self.header_frame.setEnabled(True)
-        self.header_frame.setMinimumSize(QtCore.QSize(0, 70))
-        self.header_frame.setMaximumSize(QtCore.QSize(16777215, 70))
-        self.header_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.header_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.header_frame.setObjectName("header_frame")
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.header_frame)
-        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.header_layout = QtWidgets.QHBoxLayout()
-        self.header_layout.setObjectName("header_layout")
-        self.horizontalLayout_2.addLayout(self.header_layout)
-        self.verticalLayout.addWidget(self.header_frame)
         self.content_layout = QtWidgets.QHBoxLayout()
         self.content_layout.setObjectName("content_layout")
         self.search_frame = QtWidgets.QFrame(parent=self.centralwidget)
@@ -55,12 +42,22 @@ class Ui_main_window(object):
         self.horizontalLayout_6.addLayout(self.graph_layout)
         self.content_layout.addWidget(self.graph_frame)
         self.verticalLayout.addLayout(self.content_layout)
-        self.add_entry_button = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.add_entry_button.setObjectName("add_entry_button")
-        self.verticalLayout.addWidget(self.add_entry_button, 0, QtCore.Qt.AlignmentFlag.AlignRight)
+        self.footer_frame = QtWidgets.QFrame(parent=self.centralwidget)
+        self.footer_frame.setEnabled(True)
+        self.footer_frame.setMinimumSize(QtCore.QSize(0, 0))
+        self.footer_frame.setMaximumSize(QtCore.QSize(16777215, 70))
+        self.footer_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.footer_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.footer_frame.setObjectName("footer_frame")
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.footer_frame)
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.footer_layout = QtWidgets.QHBoxLayout()
+        self.footer_layout.setObjectName("footer_layout")
+        self.horizontalLayout_2.addLayout(self.footer_layout)
+        self.verticalLayout.addWidget(self.footer_frame)
         main_window.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=main_window)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1000, 18))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1200, 26))
         self.menubar.setObjectName("menubar")
         main_window.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(parent=main_window)
@@ -73,7 +70,6 @@ class Ui_main_window(object):
     def retranslateUi(self, main_window):
         _translate = QtCore.QCoreApplication.translate
         main_window.setWindowTitle(_translate("main_window", "Dziennik diabetyka"))
-        self.add_entry_button.setText(_translate("main_window", "Dodaj wpis"))
 
 
 if __name__ == "__main__":
