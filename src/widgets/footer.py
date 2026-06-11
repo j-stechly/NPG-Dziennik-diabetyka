@@ -13,6 +13,7 @@ class Footer(QWidget):
         super().__init__()
         self.ui = Ui_footer()
         self.ui.setupUi(self)
+        self.store=store
 
         self.ui.add_entry_button.clicked.connect(self.open_add_entry_dialog)
         # Do zapisuwania danych do plików csv użyj funkcji z pliku measurements.py

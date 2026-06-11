@@ -7,8 +7,8 @@ from src.widgets.graph import Graph
 from src.widgets.footer import Footer
 from src.widgets.search import Search
 from ui.main_window_ui import Ui_main_window
-from src.measurments import SugarMeasurementsStore
-
+from src.measurments import SugarMeasurement, SugarMeasurementsStore
+from src.widgets.measurements_list import MeasurementsList
 
 class MainWindow(QMainWindow):
     """Main window of application"""
@@ -22,6 +22,7 @@ class MainWindow(QMainWindow):
         self.ui.search_layout.addWidget(Search(self.store))
         self.ui.graph_layout.addWidget(Graph(self.store))
         self.ui.footer_layout.addWidget(Footer(self.store))
+        self.ui.content_layout.insertWidget(1, MeasurementsList(self.store))
 
         
         # Przykład połączenia do sygnału zmiany listy
