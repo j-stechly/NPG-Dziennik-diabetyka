@@ -13,42 +13,25 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>120</y>
-     <width>81</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Wyszukiwanie</string>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="sugar_search_checkbox">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>340</y>
-     <width>81</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>CheckBox</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="search_input">
-   <property name="geometry">
-    <rect>
-     <x>220</x>
-     <y>210</y>
-     <width>113</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Wyszukiwanie wpisów</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="search_input"/>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="sugar_search_checkbox">
+     <property name="text">
+      <string>Wyszukuj po poziomie cukru zamiast po dacie</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

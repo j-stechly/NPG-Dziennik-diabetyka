@@ -113,3 +113,24 @@ class MeasurementsList(QWidget):
 
         if answer == QMessageBox.StandardButton.Yes:
             self.store.remove_measurement(measurement)
+
+    def apply_filter(self, search_text: str, is_sugar_search: bool):
+        """
+        Ukrywa wiersze w tabeli, które nie pasują do wyszukiwanej frazy.
+        """
+
+        row_count = self.table.rowCount()
+
+        for row in range(row_count):
+            # Kolumna 0 = Data, Kolumna 1 = Godzina, Kolumna 2 = Poziom cukru
+            if is_sugar_search:
+                item = self.table.item(row, 2)  # Szukamy w kolumnie z cukrem
+            else:
+                item = self.table.item(row, 0)  # Szukamy w kolumnie z datą
+
+            if item:
+                # Sprawdzamy, czy wpisany tekst znajduje się w komórce (ignorujemy wielkość liter)
+                if search_text.lower() in item.text().lower():
+                    self.table.setRowHidden(row, False)  # Pokaż wiersz
+                else:
+                    self.table.setRowHidden(row, True)  # Ukryj wiersz
