@@ -116,21 +116,21 @@ class MeasurementsList(QWidget):
 
     def apply_filter(self, search_text: str, is_sugar_search: bool):
         """
-        Ukrywa wiersze w tabeli, które nie pasują do wyszukiwanej frazy.
+        Hides rows in the table that don't fit the searched phrase
         """
 
         row_count = self.table.rowCount()
 
         for row in range(row_count):
-            # Kolumna 0 = Data, Kolumna 1 = Godzina, Kolumna 2 = Poziom cukru
+            # Column 0 = Date, Column 1 = Time, Column 2 = Sugar level
             if is_sugar_search:
-                item = self.table.item(row, 2)  # Szukamy w kolumnie z cukrem
+                item = self.table.item(row, 2)  # searching in sugar column
             else:
-                item = self.table.item(row, 0)  # Szukamy w kolumnie z datą
+                item = self.table.item(row, 0)  # searching in date column
 
             if item:
-                # Sprawdzamy, czy wpisany tekst znajduje się w komórce (ignorujemy wielkość liter)
+                # searching for input text (ignoring capital letters)
                 if search_text.lower() in item.text().lower():
-                    self.table.setRowHidden(row, False)  # Pokaż wiersz
+                    self.table.setRowHidden(row, False)  # show row
                 else:
-                    self.table.setRowHidden(row, True)  # Ukryj wiersz
+                    self.table.setRowHidden(row, True)  # hide row

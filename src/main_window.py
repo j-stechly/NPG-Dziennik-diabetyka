@@ -21,27 +21,25 @@ class MainWindow(QMainWindow):
 
         self.store = SugarMeasurementsStore()
 
-        # Tworzenie lewego panelu layoutu
+        # creating layout left panel
         left_panel = QWidget()
         left_layout = QVBoxLayout(left_panel)
         left_layout.setContentsMargins(0, 0, 0, 0)
 
-        # Inicjalizacja widgetów jako zmienne instancji klasy
         self.search_widget = Search(self.store)
         self.measurements_list = MeasurementsList(self.store)
 
-        # Dodanie widgetów do układu pionowego
+        # adding widgets to vertical layout
         left_layout.addWidget(self.search_widget)
         left_layout.addWidget(self.measurements_list)
 
-        # Podpięcie panelu do głównego układu okna
         self.ui.search_layout.addWidget(left_panel)
 
         self.ui.graph_layout.addWidget(Graph(self.store))
 
         self.ui.footer_layout.addWidget(Footer(self.store))
 
-        # POŁĄCZENIE SYGNAŁU: Przekazanie filtrów z wyszukiwarki do listy wpisów
+        # CONNECTING SIGNAL: passing filters from searchbar to the list
         self.search_widget.search_changed.connect(self.measurements_list.apply_filter)
 
         # Przykład połączenia do sygnału zmiany listy
