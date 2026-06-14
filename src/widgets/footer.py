@@ -1,11 +1,15 @@
 from datetime import datetime
 
-from PyQt6.QtWidgets import QWidget, QDialog
+from PyQt6.QtWidgets import QWidget, QDialog, QFileDialog
 
-from src.measurments import SugarMeasurementsStore
 from src.widgets.add_entry import AddEntryDialog
 from ui.footer_ui import Ui_footer
-from src.measurments import SugarMeasurement
+from src.measurments import (
+    SugarMeasurementsStore, 
+    SugarMeasurement, 
+    read_measurements_from_csv, 
+    write_measurements_to_csv
+)
 
 
 class Footer(QWidget):
@@ -13,8 +17,11 @@ class Footer(QWidget):
         super().__init__()
         self.ui = Ui_footer()
         self.ui.setupUi(self)
+        self.store = store
 
         self.ui.add_entry_button.clicked.connect(self.open_add_entry_dialog)
+        self.ui.export_button.clicked.connect(self.export_data)
+        self.ui.import_button.clicked.connect(self.import_data)
         # Do zapisuwania danych do plików csv użyj funkcji z pliku measurements.py
 
     def open_add_entry_dialog(self):
@@ -29,3 +36,30 @@ class Footer(QWidget):
 
                 new_measurement = SugarMeasurement(level=dane['cukier'], when=measurement_time)
                 self.store.add_measurement(new_measurement)
+
+
+    def export_data(self):
+        file_path, _ = QFileDialog.getSaveFileName(
+            self,
+            "Eksportuj pomiary",
+            "",
+            "Pliki CSV (*.csv);;Wszystkie pliki (*)"
+        )
+        
+        if file_path:
+            current_measurements = self.store.measurements
+            write_measurements_to_csv(file_path, current_measurements)
+
+    def import_data(self):
+        file_path, _ = QFileDialog.getOpenFileName(
+            self,
+            "Importuj pomiary",
+            "",
+            "Pliki CSV (*.csv);;Wszystkie pliki (*)"
+        )
+        
+        if file_path:
+            imported_measurements = read_measurements_from_csv(file_path)
+            
+            if imported_measurements:
+                self.store.measurements = imported_measurements
