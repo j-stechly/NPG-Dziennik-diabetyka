@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from PyQt6.QtWidgets import QMainWindow, QWidget, QVBoxLayout
+from PyQt6.QtWidgets import QMainWindow
 
 from src.widgets.graph import Graph
 from src.widgets.footer import Footer
@@ -21,19 +21,11 @@ class MainWindow(QMainWindow):
 
         self.store = SugarMeasurementsStore()
 
-        # creating layout left panel
-        left_panel = QWidget()
-        left_layout = QVBoxLayout(left_panel)
-        left_layout.setContentsMargins(0, 0, 0, 0)
-
         self.search_widget = Search(self.store)
         self.measurements_list = MeasurementsList(self.store)
 
-        # adding widgets to vertical layout
-        left_layout.addWidget(self.search_widget)
-        left_layout.addWidget(self.measurements_list)
-
-        self.ui.search_layout.addWidget(left_panel)
+        self.ui.search_layout.addWidget(self.search_widget)
+        self.ui.search_layout.addWidget(self.measurements_list)
 
         self.ui.graph_layout.addWidget(Graph(self.store))
 
