@@ -61,10 +61,10 @@ class Graph(QWidget):
 
     def update_date_ranges(self, reset_values:bool = False) -> None:
         """
-        Updates dateEdits allowed date ranges.
-        Optionally reset value, so the cover the whole range
+            Updates dateEdits allowed date ranges.
+            Optionally reset value, so the cover the whole range
 
-        :param reset_values: If True reset the values
+            :param reset_values: If True reset the values
         """
         dates = [m.when for m in self.store.measurements]
         if len(dates) == 0:
@@ -89,8 +89,8 @@ class Graph(QWidget):
 
     def update_range_button_state(self) -> None:
         """
-        Enables button if range reset button if full range is not covered.
-        Disabled if it is.
+            Enables button if range reset button if full range is not covered.
+            Disabled if it is.
         """
         date_min = self.ui.from_dateEdit.minimumDate()
         date_max = self.ui.to_dateEdit.maximumDate()

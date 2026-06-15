@@ -25,8 +25,6 @@ class MeasurementsList(QWidget):
         - sort measurements by date,
         - delete selected measurement,
         - filter measurements by date or sugar level.
-
-        :param QWidget: Base Qt widget class
     """
 
     def __init__(self, store: SugarMeasurementsStore):
@@ -116,13 +114,10 @@ class MeasurementsList(QWidget):
 
             Measurements are sorted by date from newest to oldest.
             For each measurement one row is created.
-
-            :param self: Object
-            :return: None
         """
         measurements = sorted(
             self.store.measurements,
-            key=lambda measurement: measurement.when,
+            key=lambda x: x.when,
             reverse=True,
         )
 
@@ -166,9 +161,7 @@ class MeasurementsList(QWidget):
 
             If user clicks "Tak", measurement is removed from store.
 
-            :param self: Object
             :param measurement: Measurement selected for deletion
-            :return: None
         """
         msg = QMessageBox(self)
         msg.setWindowTitle("Usuń wpis")
@@ -197,11 +190,9 @@ class MeasurementsList(QWidget):
 
             If sugar search is disabled, method searches text in date column.
 
-            :param self: Object
             :param search_text: Text entered by user
             :param is_sugar_search: True if searching by sugar level,
                                     False if searching by date
-            :return: None
         """
         row_count = self.table.rowCount()
 
