@@ -21,7 +21,7 @@ class Ui_main_window(object):
         self.content_layout.setObjectName("content_layout")
         self.search_frame = QtWidgets.QFrame(parent=self.centralwidget)
         self.search_frame.setMinimumSize(QtCore.QSize(250, 0))
-        self.search_frame.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        self.search_frame.setMaximumSize(QtCore.QSize(450, 16777215))
         self.search_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.search_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.search_frame.setObjectName("search_frame")

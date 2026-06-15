@@ -34,7 +34,6 @@ class MeasurementsList(QWidget):
             Initializes table, title label and layout.
             Connects store signal with table refresh method.
 
-            :param self: Object
             :param store: Object responsible for storing sugar measurements
         """
         super().__init__()
@@ -66,7 +65,6 @@ class MeasurementsList(QWidget):
 
             Sets row height, column widths and table style.
 
-            :param self: Object
             :return: None
         """
         self.table.verticalHeader().setVisible(False)
@@ -132,6 +130,7 @@ class MeasurementsList(QWidget):
                 item.setTextAlignment(
                     Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft
                 )
+                item.setFlags(~Qt.ItemFlag.ItemIsSelectable)
 
             self.table.setItem(row, 0, date_item)
             self.table.setItem(row, 1, time_item)

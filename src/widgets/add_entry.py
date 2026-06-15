@@ -1,3 +1,4 @@
+from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QDialog
 from PyQt6.QtCore import QDate, QTime
 
@@ -9,6 +10,8 @@ class AddEntryDialog(QDialog):
         super().__init__()
         self.ui = Ui_add_entry()
         self.ui.setupUi(self)
+
+        self.setWindowIcon(QIcon("resources/icon.ico"))
 
         self.ui.dateInput.setDate(QDate.currentDate())
         self.ui.timeInput.setTime(QTime.currentTime())
