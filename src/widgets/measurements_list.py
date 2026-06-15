@@ -17,7 +17,7 @@ from src.measurments import SugarMeasurement, SugarMeasurementsStore
 
 
 class MeasurementsList(QWidget):
-     """
+    """
         Widget responsible for displaying sugar measurements in table.
 
         Allows user to:
@@ -27,9 +27,9 @@ class MeasurementsList(QWidget):
         - filter measurements by date or sugar level.
 
         :param QWidget: Base Qt widget class
-    """     
+    """
 
-def __init__(self, store: SugarMeasurementsStore):
+    def __init__(self, store: SugarMeasurementsStore):
         """
             Creates measurements list widget.
 
@@ -40,22 +40,55 @@ def __init__(self, store: SugarMeasurementsStore):
             :param store: Object responsible for storing sugar measurements
         """
         super().__init__()
+
         self.store = store
 
         self.title_label = QLabel("Lista pomiarów")
 
+        self.table = QTableWidget()
+        self.table.setColumnCount(4)
+        self.table.setHorizontalHeaderLabels(["Data", "Godzina", "Poziom cukru", ""])
+
+        self.table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self.table.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+
+        self.configure_table()
+
+        layout = QVBoxLayout(self)
+        layout.addWidget(self.title_label)
+        layout.addWidget(self.table)
+
         self.store.measurements_changed.connect(self.refresh_table)
         self.refresh_table()
 
-def configure_table(self) -> None:
-        """Configure table appearance and behavior."""
+    def configure_table(self) -> None:
+        """
+            Configures table appearance and behavior.
+
+            Sets row height, column widths and table style.
+
+            :param self: Object
+            :return: None
+        """
         self.table.verticalHeader().setVisible(False)
         self.table.verticalHeader().setDefaultSectionSize(38)
-        self.table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
-        self.table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
-        self.table.horizontalHeader().setSectionResizeMode(2, QHeaderView.ResizeMode.Stretch)
-        self.table.horizontalHeader().setSectionResizeMode(3, QHeaderView.ResizeMode.Fixed)
+
+        self.table.horizontalHeader().setSectionResizeMode(
+            0, QHeaderView.ResizeMode.Stretch
+        )
+        self.table.horizontalHeader().setSectionResizeMode(
+            1, QHeaderView.ResizeMode.Stretch
+        )
+        self.table.horizontalHeader().setSectionResizeMode(
+            2, QHeaderView.ResizeMode.Stretch
+        )
+        self.table.horizontalHeader().setSectionResizeMode(
+            3, QHeaderView.ResizeMode.Fixed
+        )
+
         self.table.setColumnWidth(3, 56)
+
         self.table.setStyleSheet(
             """
             QTableWidget::item {
@@ -77,14 +110,7 @@ def configure_table(self) -> None:
             """
         )
 
-        layout = QVBoxLayout(self)
-        layout.addWidget(self.title_label)
-        layout.addWidget(self.table)
-
-        self.store.measurements_changed.connect(self.refresh_table)
-        self.refresh_table()
-
-def refresh_table(self) -> None:
+    def refresh_table(self) -> None:
         """
             Refreshes table content using current measurements from store.
 
@@ -108,7 +134,9 @@ def refresh_table(self) -> None:
             sugar_level_item = QTableWidgetItem(str(measurement.sugar_level))
 
             for item in (date_item, time_item, sugar_level_item):
-                item.setTextAlignment(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft)
+                item.setTextAlignment(
+                    Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft
+                )
 
             self.table.setItem(row, 0, date_item)
             self.table.setItem(row, 1, time_item)
@@ -117,6 +145,7 @@ def refresh_table(self) -> None:
             delete_button = QPushButton("X")
             delete_button.setFixedSize(30, 24)
             delete_button.setToolTip("Usuń wpis")
+
             delete_button.clicked.connect(
                 lambda checked=False, item=measurement: self.delete_measurement(item)
             )
@@ -124,10 +153,14 @@ def refresh_table(self) -> None:
             button_container = QWidget()
             button_layout = QHBoxLayout(button_container)
             button_layout.setContentsMargins(0, 0, 0, 0)
-            button_layout.addWidget(delete_button, alignment=Qt.AlignmentFlag.AlignCenter)
+            button_layout.addWidget(
+                delete_button,
+                alignment=Qt.AlignmentFlag.AlignCenter,
+            )
+
             self.table.setCellWidget(row, 3, button_container)
 
-def delete_measurement(self, measurement: SugarMeasurement) -> None:
+    def delete_measurement(self, measurement: SugarMeasurement) -> None:
         """
             Removes selected measurement after user confirmation.
 
@@ -145,28 +178,35 @@ def delete_measurement(self, measurement: SugarMeasurement) -> None:
         msg.setStandardButtons(
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
         )
+        msg.setDefaultButton(QMessageBox.StandardButton.No)
+
+        msg.button(QMessageBox.StandardButton.Yes).setText("Tak")
+        msg.button(QMessageBox.StandardButton.No).setText("Nie")
+
+        answer = msg.exec()
 
         if answer == QMessageBox.StandardButton.Yes:
             self.store.remove_measurement(measurement)
 
-def apply_filter(self, search_text: str, is_sugar_search: bool):
+    def apply_filter(self, search_text: str, is_sugar_search: bool) -> None:
         """
-        Filters the visible rows in the table based on the search criteria.
+            Filters visible rows in measurements table.
 
-        If 'is_sugar_search' is True, it filters by sugar level allowing
-        a tolerance of +/- 5 from the target value. Otherwise, it performs
-        a standard text search on the date column.
+            If sugar search is enabled, method compares entered sugar level
+            with sugar values in table using tolerance.
 
-        Args:
-            search_text (str): The text or number entered by the user.
-            is_sugar_search (bool): True if searching by sugar level, False if by date.
+            If sugar search is disabled, method searches text in date column.
+
+            :param self: Object
+            :param search_text: Text entered by user
+            :param is_sugar_search: True if searching by sugar level,
+                                    False if searching by date
+            :return: None
         """
         row_count = self.table.rowCount()
 
-        # Fixed tolerance value for sugar level search (+/- 10)
         tolerance = 5.0
 
-        # If the search field is empty, show all rows
         if not search_text:
             for row in range(row_count):
                 self.table.setRowHidden(row, False)
@@ -174,26 +214,24 @@ def apply_filter(self, search_text: str, is_sugar_search: bool):
 
         for row in range(row_count):
             if is_sugar_search:
-                item = self.table.item(row, 2)  # Column 2: Sugar level
+                item = self.table.item(row, 2)
+
                 if item:
                     try:
-                        # Convert input and table texts to floats
-                        # (.replace() handles comma separators)
-                        target_value = float(search_text.replace(',', '.'))
-                        cell_value = float(item.text().replace(',', '.'))
+                        target_value = float(search_text.replace(",", "."))
+                        cell_value = float(item.text().replace(",", "."))
 
-                        # Show row if the difference is within the tolerance
                         if abs(target_value - cell_value) <= tolerance:
                             self.table.setRowHidden(row, False)
                         else:
                             self.table.setRowHidden(row, True)
 
                     except ValueError:
-                        # Hide the row if the user inputs invalid data (e.g., letters)
                         self.table.setRowHidden(row, True)
+
             else:
-                # Traditional text search (e.g., for dates)
-                item = self.table.item(row, 0)  # Column 0: Date
+                item = self.table.item(row, 0)
+
                 if item:
                     if search_text.lower() in item.text().lower():
                         self.table.setRowHidden(row, False)
