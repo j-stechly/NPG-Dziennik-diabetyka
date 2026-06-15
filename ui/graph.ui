@@ -39,15 +39,18 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QLabel" name="from_label">
+       <widget class="QCheckBox" name="from_checkbox">
         <property name="maximumSize">
          <size>
-          <width>15</width>
+          <width>45</width>
           <height>16777215</height>
          </size>
         </property>
         <property name="text">
          <string>Od</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -68,15 +71,18 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="to_label">
+       <widget class="QCheckBox" name="to_checkbox">
         <property name="maximumSize">
          <size>
-          <width>15</width>
+          <width>45</width>
           <height>16777215</height>
          </size>
         </property>
         <property name="text">
          <string>Do</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
