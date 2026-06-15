@@ -118,7 +118,7 @@ class MeasurementsList(QWidget):
         row_count = self.table.rowCount()
 
         # Fixed tolerance value for sugar level search (+/- 10)
-        tolerance = 10.0
+        tolerance = 5.0
 
         # If the search field is empty, show all rows
         if not search_text:
