@@ -1,4 +1,4 @@
-# 🩸 Dziennik Diabetyka
+#  Dziennik Diabetyka
 
 ![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)
 ![PyQt6](https://img.shields.io/badge/PyQt6-GUI-green.svg)
@@ -7,7 +7,7 @@ Kompleksowa aplikacja okienkowa (desktopowa) napisana w języku Python. Narzędz
 
 ---
 
-## 📑 Spis treści
+##  Spis treści
 1. [Główne funkcjonalności](#-główne-funkcjonalności)
 2. [Wykorzystane technologie](#-wykorzystane-technologie)
 3. [Struktura i architektura](#-struktura-i-architektura)
@@ -17,7 +17,7 @@ Kompleksowa aplikacja okienkowa (desktopowa) napisana w języku Python. Narzędz
 
 ---
 
-## 🚀 Główne funkcjonalności
+##  Główne funkcjonalności
 
 Aplikacja została podzielona na moduły, które odpowiadają za poszczególne zadania:
 
@@ -38,7 +38,7 @@ Aplikacja została podzielona na moduły, które odpowiadają za poszczególne z
 
 ---
 
-## 🛠️ Wykorzystane technologie
+## 🛠 Wykorzystane technologie
 
 Projekt został zbudowany w oparciu o nowoczesny stos technologiczny dla aplikacji desktopowych w Pythonie:
 
@@ -52,7 +52,7 @@ Projekt został zbudowany w oparciu o nowoczesny stos technologiczny dla aplikac
 
 ---
 
-## 🏗️ Struktura i architektura
+##  Struktura i architektura
 
 Projekt realizuje podział na warstwę widoku (UI) oraz warstwę logiki biznesowej, wykorzystując wzorzec zarządzania stanem (Store). Drzewo plików prezentuje się następująco:
 
@@ -90,7 +90,7 @@ NPG_project/
 ```
 ---
 
-## ⚙️ Instalacja i uruchomienie
+##  Instalacja i uruchomienie
 
 Instrukcja krok po kroku, jak uruchomić aplikację lokalnie (dla systemów Windows / Linux / macOS).
 
@@ -122,7 +122,7 @@ python main.py
 ```
 ---
 
-## 📖 Instrukcja obsługi
+##  Instrukcja obsługi
 
 **1. Dodawanie nowego pomiaru**
 * Kliknij przycisk **Dodaj wpis** znajdujący się w prawym dolnym rogu ekranu.
@@ -149,7 +149,7 @@ python main.py
 
 ---
 
-## 👥 Zespół projektowy
+##  Zespół projektowy
 
 Projekt zrealizowany przez zespół w składzie:
 
