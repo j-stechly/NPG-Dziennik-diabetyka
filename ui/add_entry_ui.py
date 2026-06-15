@@ -15,6 +15,10 @@ class Ui_add_entry(object):
         add_entry.resize(312, 244)
         self.sugarLevelInput = QtWidgets.QDoubleSpinBox(parent=add_entry)
         self.sugarLevelInput.setGeometry(QtCore.QRect(40, 20, 231, 41))
+        self.sugarLevelInput.setDecimals(1)
+        self.sugarLevelInput.setMinimum(25.0)
+        self.sugarLevelInput.setMaximum(500.0)
+        self.sugarLevelInput.setProperty("value", 80.0)
         self.sugarLevelInput.setObjectName("sugarLevelInput")
         self.dateInput = QtWidgets.QDateEdit(parent=add_entry)
         self.dateInput.setGeometry(QtCore.QRect(40, 60, 141, 41))
@@ -31,5 +35,5 @@ class Ui_add_entry(object):
 
     def retranslateUi(self, add_entry):
         _translate = QtCore.QCoreApplication.translate
-        add_entry.setWindowTitle(_translate("add_entry", "Dialog"))
+        add_entry.setWindowTitle(_translate("add_entry", "Dodaj wpis"))
         self.addButton.setText(_translate("add_entry", "DODAJ"))

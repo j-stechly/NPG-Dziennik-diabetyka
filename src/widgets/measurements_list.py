@@ -17,10 +17,27 @@ from src.measurments import SugarMeasurement, SugarMeasurementsStore
 
 
 class MeasurementsList(QWidget):
-    """Widget responsible for displaying and deleting sugar measurements."""
+    """
+        Widget responsible for displaying sugar measurements in table.
+
+        Allows user to:
+        - display saved measurements,
+        - sort measurements by date,
+        - delete selected measurement,
+        - filter measurements by date or sugar level.
+    """
 
     def __init__(self, store: SugarMeasurementsStore):
+        """
+            Creates measurements list widget.
+
+            Initializes table, title label and layout.
+            Connects store signal with table refresh method.
+
+            :param store: Object responsible for storing sugar measurements
+        """
         super().__init__()
+
         self.store = store
 
         self.title_label = QLabel("Lista pomiarów")
@@ -28,16 +45,46 @@ class MeasurementsList(QWidget):
         self.table = QTableWidget()
         self.table.setColumnCount(4)
         self.table.setHorizontalHeaderLabels(["Data", "Godzina", "Poziom cukru", ""])
+
         self.table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         self.table.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+
+        self.configure_table()
+
+        layout = QVBoxLayout(self)
+        layout.addWidget(self.title_label)
+        layout.addWidget(self.table)
+
+        self.store.measurements_changed.connect(self.refresh_table)
+        self.refresh_table()
+
+    def configure_table(self) -> None:
+        """
+            Configures table appearance and behavior.
+
+            Sets row height, column widths and table style.
+
+            :return: None
+        """
         self.table.verticalHeader().setVisible(False)
         self.table.verticalHeader().setDefaultSectionSize(38)
-        self.table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
-        self.table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
-        self.table.horizontalHeader().setSectionResizeMode(2, QHeaderView.ResizeMode.Stretch)
-        self.table.horizontalHeader().setSectionResizeMode(3, QHeaderView.ResizeMode.Fixed)
+
+        self.table.horizontalHeader().setSectionResizeMode(
+            0, QHeaderView.ResizeMode.Stretch
+        )
+        self.table.horizontalHeader().setSectionResizeMode(
+            1, QHeaderView.ResizeMode.Stretch
+        )
+        self.table.horizontalHeader().setSectionResizeMode(
+            2, QHeaderView.ResizeMode.Stretch
+        )
+        self.table.horizontalHeader().setSectionResizeMode(
+            3, QHeaderView.ResizeMode.Fixed
+        )
+
         self.table.setColumnWidth(3, 56)
+
         self.table.setStyleSheet(
             """
             QTableWidget::item {
@@ -59,18 +106,16 @@ class MeasurementsList(QWidget):
             """
         )
 
-        layout = QVBoxLayout(self)
-        layout.addWidget(self.title_label)
-        layout.addWidget(self.table)
-
-        self.store.measurements_changed.connect(self.refresh_table)
-        self.refresh_table()
-
     def refresh_table(self) -> None:
-        """Refresh table content using current measurements from store."""
+        """
+            Refreshes table content using current measurements from store.
+
+            Measurements are sorted by date from newest to oldest.
+            For each measurement one row is created.
+        """
         measurements = sorted(
             self.store.measurements,
-            key=lambda measurement: measurement.when,
+            key=lambda x: x.when,
             reverse=True,
         )
 
@@ -82,7 +127,10 @@ class MeasurementsList(QWidget):
             sugar_level_item = QTableWidgetItem(str(measurement.sugar_level))
 
             for item in (date_item, time_item, sugar_level_item):
-                item.setTextAlignment(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft)
+                item.setTextAlignment(
+                    Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft
+                )
+                item.setFlags(~Qt.ItemFlag.ItemIsSelectable)
 
             self.table.setItem(row, 0, date_item)
             self.table.setItem(row, 1, time_item)
@@ -91,6 +139,7 @@ class MeasurementsList(QWidget):
             delete_button = QPushButton("X")
             delete_button.setFixedSize(30, 24)
             delete_button.setToolTip("Usuń wpis")
+
             delete_button.clicked.connect(
                 lambda checked=False, item=measurement: self.delete_measurement(item)
             )
@@ -98,10 +147,21 @@ class MeasurementsList(QWidget):
             button_container = QWidget()
             button_layout = QHBoxLayout(button_container)
             button_layout.setContentsMargins(0, 0, 0, 0)
-            button_layout.addWidget(delete_button, alignment=Qt.AlignmentFlag.AlignCenter)
+            button_layout.addWidget(
+                delete_button,
+                alignment=Qt.AlignmentFlag.AlignCenter,
+            )
+
             self.table.setCellWidget(row, 3, button_container)
 
     def delete_measurement(self, measurement: SugarMeasurement) -> None:
+        """
+            Removes selected measurement after user confirmation.
+
+            If user clicks "Tak", measurement is removed from store.
+
+            :param measurement: Measurement selected for deletion
+        """
         msg = QMessageBox(self)
         msg.setWindowTitle("Usuń wpis")
         msg.setText("Czy na pewno chcesz usunąć ten pomiar?")
@@ -115,18 +175,28 @@ class MeasurementsList(QWidget):
         msg.button(QMessageBox.StandardButton.Yes).setText("Tak")
         msg.button(QMessageBox.StandardButton.No).setText("Nie")
 
-        msg.exec()
+        answer = msg.exec()
 
-        if msg.clickedButton() == msg.button(QMessageBox.StandardButton.Yes):
+        if answer == QMessageBox.StandardButton.Yes:
             self.store.remove_measurement(measurement)
 
-    def apply_filter(self, search_text: str, is_sugar_search: bool):
+    def apply_filter(self, search_text: str, is_sugar_search: bool) -> None:
+        """
+            Filters visible rows in measurements table.
+
+            If sugar search is enabled, method compares entered sugar level
+            with sugar values in table using tolerance.
+
+            If sugar search is disabled, method searches text in date column.
+
+            :param search_text: Text entered by user
+            :param is_sugar_search: True if searching by sugar level,
+                                    False if searching by date
+        """
         row_count = self.table.rowCount()
 
-        # Fixed tolerance value for sugar level search (+/- 10)
         tolerance = 5.0
 
-        # If the search field is empty, show all rows
         if not search_text:
             for row in range(row_count):
                 self.table.setRowHidden(row, False)
@@ -134,26 +204,24 @@ class MeasurementsList(QWidget):
 
         for row in range(row_count):
             if is_sugar_search:
-                item = self.table.item(row, 2)  # Column 2: Sugar level
+                item = self.table.item(row, 2)
+
                 if item:
                     try:
-                        # Convert input and table texts to floats
-                        # (.replace() handles comma separators)
-                        target_value = float(search_text.replace(',', '.'))
-                        cell_value = float(item.text().replace(',', '.'))
+                        target_value = float(search_text.replace(",", "."))
+                        cell_value = float(item.text().replace(",", "."))
 
-                        # Show row if the difference is within the tolerance
                         if abs(target_value - cell_value) <= tolerance:
                             self.table.setRowHidden(row, False)
                         else:
                             self.table.setRowHidden(row, True)
 
                     except ValueError:
-                        # Hide the row if the user inputs invalid data (e.g., letters)
                         self.table.setRowHidden(row, True)
+
             else:
-                # Traditional text search (e.g., for dates)
-                item = self.table.item(row, 0)  # Column 0: Date
+                item = self.table.item(row, 0)
+
                 if item:
                     if search_text.lower() in item.text().lower():
                         self.table.setRowHidden(row, False)

@@ -28,8 +28,6 @@ class SugarMeasurementsStore(QObject):
         """
             Stores sugar level measurements.
             Load measurements data from disk at object creation.
-
-            :param self: Object
         """
         super().__init__()
         self._measurements = read_measurements_from_csv(SAVED_MEASUREMENTS_PATH)
@@ -39,7 +37,6 @@ class SugarMeasurementsStore(QObject):
         """
             Creates shallow copy of stored measurements.
 
-            :param self: Object
             :return: Shallow copy of stored measurements
         """
         return self._measurements.copy()
@@ -49,7 +46,6 @@ class SugarMeasurementsStore(QObject):
         """
             Sets new measurements
 
-            :param self: Object
             :param measurements: List of new measurements
         """
         if measurements is not self._measurements:

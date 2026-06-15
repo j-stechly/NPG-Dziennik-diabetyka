@@ -11,7 +11,6 @@ from src.measurments import SugarMeasurement, SugarMeasurementsStore
 from src.widgets.measurements_list import MeasurementsList
 
 
-
 class MainWindow(QMainWindow):
     """Main window of application"""
 

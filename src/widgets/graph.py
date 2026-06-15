@@ -90,8 +90,8 @@ class Graph(QWidget):
 
     def update_range_reset_button_state(self) -> None:
         """
-        Enables range reset button, if range covered under enabled dateEdits is not equal to whole available range.
-        Disables in other cases.
+          Enables range reset button, if range covered under enabled dateEdits is not equal to whole available range.
+          Disables in other cases.
         """
         enable = False
         if self.ui.from_checkbox.isChecked():
