@@ -38,7 +38,7 @@ Aplikacja została podzielona na moduły, które odpowiadają za poszczególne z
 
 ---
 
-## 🛠 Wykorzystane technologie
+##  Wykorzystane technologie
 
 Projekt został zbudowany w oparciu o nowoczesny stos technologiczny dla aplikacji desktopowych w Pythonie:
 
