@@ -27,7 +27,7 @@ class Ui_main_window(object):
         self.search_frame.setObjectName("search_frame")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.search_frame)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.search_layout = QtWidgets.QHBoxLayout()
+        self.search_layout = QtWidgets.QVBoxLayout()
         self.search_layout.setObjectName("search_layout")
         self.horizontalLayout_3.addLayout(self.search_layout)
         self.content_layout.addWidget(self.search_frame)

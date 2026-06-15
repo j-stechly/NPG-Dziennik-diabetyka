@@ -1,6 +1,5 @@
 from datetime import datetime
 
-
 from PyQt6.QtWidgets import QMainWindow
 
 from src.widgets.graph import Graph
@@ -19,7 +18,12 @@ class MainWindow(QMainWindow):
 
         self.store = SugarMeasurementsStore()
 
-        self.ui.search_layout.addWidget(Search(self.store))
+        self.search_widget = Search(self.store)
+        self.measurements_list = MeasurementsList(self.store)
+
+        self.ui.search_layout.addWidget(self.search_widget)
+        self.ui.search_layout.addWidget(self.measurements_list)
+
         self.ui.graph_layout.addWidget(Graph(self.store))
         self.ui.footer_layout.addWidget(Footer(self.store))
 
