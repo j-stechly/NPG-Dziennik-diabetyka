@@ -88,6 +88,8 @@ NPG_project/
 ├── requirements.txt         # Lista zależności systemowych
 └── saved_measurements.csv   # Lokalna baza danych (generowana po uruchomieniu, ignorowana przez Git)
 ```
+---
+
 ## ⚙️ Instalacja i uruchomienie
 
 Instrukcja krok po kroku, jak uruchomić aplikację lokalnie (dla systemów Windows / Linux / macOS).
@@ -118,6 +120,7 @@ pip install -r requirements.txt
 ```bash
 python main.py
 ```
+---
 
 ## 📖 Instrukcja obsługi
 
@@ -144,6 +147,8 @@ python main.py
 * Przycisk **Exportuj** w dolnym menu pozwala na zgranie obecnej bazy pomiarów do zewnętrznego pliku.
 * Przycisk **Importuj** umożliwia wczytanie wcześniej zachowanej historii bezpośrednio do aplikacji.
 
+---
+
 ## 👥 Zespół projektowy
 
 Projekt zrealizowany przez zespół w składzie:
@@ -153,3 +158,7 @@ Projekt zrealizowany przez zespół w składzie:
 * **Filip Stępień** – Programista (Implementacja modułu eksportu i importu danych)
 * **Kornel Szudra** – Programista (Interfejs i logika wyszukiwania / filtrowania wpisów)
 * **Karol Stawinoga** – Programista (Moduł wyświetlania listy pomiarów, projekt ikony aplikacji)
+
+---
+
+---
