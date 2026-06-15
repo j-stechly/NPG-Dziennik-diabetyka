@@ -115,22 +115,41 @@ class MeasurementsList(QWidget):
             self.store.remove_measurement(measurement)
 
     def apply_filter(self, search_text: str, is_sugar_search: bool):
-        """
-        Hides rows in the table that don't fit the searched phrase
-        """
-
         row_count = self.table.rowCount()
 
-        for row in range(row_count):
-            # Column 0 = Date, Column 1 = Time, Column 2 = Sugar level
-            if is_sugar_search:
-                item = self.table.item(row, 2)  # searching in sugar column
-            else:
-                item = self.table.item(row, 0)  # searching in date column
+        # Fixed tolerance value for sugar level search (+/- 10)
+        tolerance = 10.0
 
-            if item:
-                # searching for input text (ignoring capital letters)
-                if search_text.lower() in item.text().lower():
-                    self.table.setRowHidden(row, False)  # show row
-                else:
-                    self.table.setRowHidden(row, True)  # hide row
+        # If the search field is empty, show all rows
+        if not search_text:
+            for row in range(row_count):
+                self.table.setRowHidden(row, False)
+            return
+
+        for row in range(row_count):
+            if is_sugar_search:
+                item = self.table.item(row, 2)  # Column 2: Sugar level
+                if item:
+                    try:
+                        # Convert input and table texts to floats
+                        # (.replace() handles comma separators)
+                        target_value = float(search_text.replace(',', '.'))
+                        cell_value = float(item.text().replace(',', '.'))
+
+                        # Show row if the difference is within the tolerance
+                        if abs(target_value - cell_value) <= tolerance:
+                            self.table.setRowHidden(row, False)
+                        else:
+                            self.table.setRowHidden(row, True)
+
+                    except ValueError:
+                        # Hide the row if the user inputs invalid data (e.g., letters)
+                        self.table.setRowHidden(row, True)
+            else:
+                # Traditional text search (e.g., for dates)
+                item = self.table.item(row, 0)  # Column 0: Date
+                if item:
+                    if search_text.lower() in item.text().lower():
+                        self.table.setRowHidden(row, False)
+                    else:
+                        self.table.setRowHidden(row, True)
