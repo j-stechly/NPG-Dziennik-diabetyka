@@ -17,11 +17,7 @@ class Footer(QWidget):
         super().__init__()
         self.ui = Ui_footer()
         self.ui.setupUi(self)
-<<<<<<< HEAD
-        self.store = store
-=======
         self.store=store
->>>>>>> 1836abe96fa350993ad366b70cc15cd7f64c2363
 
         self.ui.add_entry_button.clicked.connect(self.open_add_entry_dialog)
         self.ui.export_button.clicked.connect(self.export_data)
@@ -40,7 +36,6 @@ class Footer(QWidget):
 
                 new_measurement = SugarMeasurement(level=dane['cukier'], when=measurement_time)
                 self.store.add_measurement(new_measurement)
-<<<<<<< HEAD
 
 
     def export_data(self):
@@ -68,5 +63,3 @@ class Footer(QWidget):
             
             if imported_measurements:
                 self.store.measurements = imported_measurements
-=======
->>>>>>> 1836abe96fa350993ad366b70cc15cd7f64c2363
