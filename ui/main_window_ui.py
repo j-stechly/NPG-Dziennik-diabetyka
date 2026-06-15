@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file '.\main_window.ui'
+# Form implementation generated from reading ui file 'main_window.ui'
 #
 # Created by: PyQt6 UI code generator 6.11.0
 #
@@ -45,7 +45,7 @@ class Ui_main_window(object):
         self.footer_frame = QtWidgets.QFrame(parent=self.centralwidget)
         self.footer_frame.setEnabled(True)
         self.footer_frame.setMinimumSize(QtCore.QSize(0, 0))
-        self.footer_frame.setMaximumSize(QtCore.QSize(16777215, 70))
+        self.footer_frame.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.footer_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.footer_frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.footer_frame.setObjectName("footer_frame")
@@ -57,7 +57,7 @@ class Ui_main_window(object):
         self.verticalLayout.addWidget(self.footer_frame)
         main_window.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=main_window)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1200, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1200, 18))
         self.menubar.setObjectName("menubar")
         main_window.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(parent=main_window)

@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'search.ui'
+# Form implementation generated from reading ui file 'ui/search.ui'
 #
 # Created by: PyQt6 UI code generator 6.11.0
 #
@@ -12,10 +12,18 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_search(object):
     def setupUi(self, search):
         search.setObjectName("search")
-        search.resize(400, 300)
+        search.resize(635, 568)
+        self.verticalLayout = QtWidgets.QVBoxLayout(search)
+        self.verticalLayout.setObjectName("verticalLayout")
         self.label = QtWidgets.QLabel(parent=search)
-        self.label.setGeometry(QtCore.QRect(150, 120, 81, 21))
         self.label.setObjectName("label")
+        self.verticalLayout.addWidget(self.label)
+        self.search_input = QtWidgets.QLineEdit(parent=search)
+        self.search_input.setObjectName("search_input")
+        self.verticalLayout.addWidget(self.search_input)
+        self.sugar_search_checkbox = QtWidgets.QCheckBox(parent=search)
+        self.sugar_search_checkbox.setObjectName("sugar_search_checkbox")
+        self.verticalLayout.addWidget(self.sugar_search_checkbox)
 
         self.retranslateUi(search)
         QtCore.QMetaObject.connectSlotsByName(search)
@@ -23,4 +31,5 @@ class Ui_search(object):
     def retranslateUi(self, search):
         _translate = QtCore.QCoreApplication.translate
         search.setWindowTitle(_translate("search", "Form"))
-        self.label.setText(_translate("search", "Wyszukiwanie"))
+        self.label.setText(_translate("search", "Wyszukiwanie wpisów"))
+        self.sugar_search_checkbox.setText(_translate("search", "Wyszukuj po poziomie cukru zamiast po dacie"))

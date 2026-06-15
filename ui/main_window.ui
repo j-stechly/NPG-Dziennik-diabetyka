@@ -75,7 +75,7 @@
       <property name="maximumSize">
        <size>
         <width>16777215</width>
-        <height>70</height>
+        <height>16777215</height>
        </size>
       </property>
       <property name="frameShape">
@@ -99,7 +99,7 @@
      <x>0</x>
      <y>0</y>
      <width>1200</width>
-     <height>26</height>
+     <height>18</height>
     </rect>
    </property>
   </widget>
