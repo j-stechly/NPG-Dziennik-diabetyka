@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QMainWindow
 
 from src.widgets.graph import Graph
@@ -10,6 +11,7 @@ from src.measurments import SugarMeasurement, SugarMeasurementsStore
 from src.widgets.measurements_list import MeasurementsList
 
 
+
 class MainWindow(QMainWindow):
     """Main window of application"""
 
@@ -18,6 +20,8 @@ class MainWindow(QMainWindow):
 
         self.ui = Ui_main_window()
         self.ui.setupUi(self)
+
+        self.setWindowIcon(QIcon("resources/icon.ico"))
 
         self.store = SugarMeasurementsStore()
 
