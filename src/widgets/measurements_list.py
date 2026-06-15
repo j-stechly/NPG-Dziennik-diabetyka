@@ -17,20 +17,38 @@ from src.measurments import SugarMeasurement, SugarMeasurementsStore
 
 
 class MeasurementsList(QWidget):
-    """Widget responsible for displaying and deleting sugar measurements."""
+     """
+        Widget responsible for displaying sugar measurements in table.
 
-    def __init__(self, store: SugarMeasurementsStore):
+        Allows user to:
+        - display saved measurements,
+        - sort measurements by date,
+        - delete selected measurement,
+        - filter measurements by date or sugar level.
+
+        :param QWidget: Base Qt widget class
+    """     
+
+def __init__(self, store: SugarMeasurementsStore):
+        """
+            Creates measurements list widget.
+
+            Initializes table, title label and layout.
+            Connects store signal with table refresh method.
+
+            :param self: Object
+            :param store: Object responsible for storing sugar measurements
+        """
         super().__init__()
         self.store = store
 
         self.title_label = QLabel("Lista pomiarów")
 
-        self.table = QTableWidget()
-        self.table.setColumnCount(4)
-        self.table.setHorizontalHeaderLabels(["Data", "Godzina", "Poziom cukru", ""])
-        self.table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
-        self.table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
-        self.table.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+        self.store.measurements_changed.connect(self.refresh_table)
+        self.refresh_table()
+
+def configure_table(self) -> None:
+        """Configure table appearance and behavior."""
         self.table.verticalHeader().setVisible(False)
         self.table.verticalHeader().setDefaultSectionSize(38)
         self.table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
@@ -66,8 +84,16 @@ class MeasurementsList(QWidget):
         self.store.measurements_changed.connect(self.refresh_table)
         self.refresh_table()
 
-    def refresh_table(self) -> None:
-        """Refresh table content using current measurements from store."""
+def refresh_table(self) -> None:
+        """
+            Refreshes table content using current measurements from store.
+
+            Measurements are sorted by date from newest to oldest.
+            For each measurement one row is created.
+
+            :param self: Object
+            :return: None
+        """
         measurements = sorted(
             self.store.measurements,
             key=lambda measurement: measurement.when,
@@ -101,20 +127,29 @@ class MeasurementsList(QWidget):
             button_layout.addWidget(delete_button, alignment=Qt.AlignmentFlag.AlignCenter)
             self.table.setCellWidget(row, 3, button_container)
 
-    def delete_measurement(self, measurement: SugarMeasurement) -> None:
-        """Delete selected measurement after user confirmation."""
-        answer = QMessageBox.question(
-            self,
-            "Usuń wpis",
-            "Czy na pewno chcesz usunąć ten pomiar?",
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
-            QMessageBox.StandardButton.No,
+def delete_measurement(self, measurement: SugarMeasurement) -> None:
+        """
+            Removes selected measurement after user confirmation.
+
+            If user clicks "Tak", measurement is removed from store.
+
+            :param self: Object
+            :param measurement: Measurement selected for deletion
+            :return: None
+        """
+        msg = QMessageBox(self)
+        msg.setWindowTitle("Usuń wpis")
+        msg.setText("Czy na pewno chcesz usunąć ten pomiar?")
+        msg.setIcon(QMessageBox.Icon.Question)
+
+        msg.setStandardButtons(
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
         )
 
         if answer == QMessageBox.StandardButton.Yes:
             self.store.remove_measurement(measurement)
 
-    def apply_filter(self, search_text: str, is_sugar_search: bool):
+def apply_filter(self, search_text: str, is_sugar_search: bool):
         """
         Filters the visible rows in the table based on the search criteria.
 
