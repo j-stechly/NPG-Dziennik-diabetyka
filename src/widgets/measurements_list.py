@@ -102,16 +102,22 @@ class MeasurementsList(QWidget):
             self.table.setCellWidget(row, 3, button_container)
 
     def delete_measurement(self, measurement: SugarMeasurement) -> None:
-        """Delete selected measurement after user confirmation."""
-        answer = QMessageBox.question(
-            self,
-            "Usuń wpis",
-            "Czy na pewno chcesz usunąć ten pomiar?",
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
-            QMessageBox.StandardButton.No,
-        )
+        msg = QMessageBox(self)
+        msg.setWindowTitle("Usuń wpis")
+        msg.setText("Czy na pewno chcesz usunąć ten pomiar?")
+        msg.setIcon(QMessageBox.Icon.Question)
 
-        if answer == QMessageBox.StandardButton.Yes:
+        msg.setStandardButtons(
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+        msg.setDefaultButton(QMessageBox.StandardButton.No)
+
+        msg.button(QMessageBox.StandardButton.Yes).setText("Tak")
+        msg.button(QMessageBox.StandardButton.No).setText("Nie")
+
+        msg.exec()
+
+        if msg.clickedButton() == msg.button(QMessageBox.StandardButton.Yes):
             self.store.remove_measurement(measurement)
 
     def apply_filter(self, search_text: str, is_sugar_search: bool):
