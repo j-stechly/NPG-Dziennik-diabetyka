@@ -3,12 +3,12 @@
 ![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)
 ![PyQt6](https://img.shields.io/badge/PyQt6-GUI-green.svg)
 
-Kompleksowa aplikacja okienkowa (desktopowa) napisana w języku Python. Narzędzie zostało zaprojektowane z myślą o diabetykach, aby maksymalnie uprościć codzienne monitorowanie poziomu cukru we krwi, analizę trendów oraz zarządzanie historią medyczną.
+Aplikacja okienkowa (desktopowa) napisana w języku Python. Narzędzie zostało zaprojektowane z myślą o diabetykach, aby maksymalnie uprościć codzienne monitorowanie poziomu cukru we krwi, analizę trendów oraz zarządzanie historią medyczną.
 
 ---
 
 ##  Spis treści
-1. [Główne funkcjonalności](#-główne-funkcjonalności)
+1. [Główne funkcjonalności](##--główne-funkcjonalności)
 2. [Wykorzystane technologie](#-wykorzystane-technologie)
 3. [Struktura i architektura](#-struktura-i-architektura)
 4. [Instalacja i uruchomienie](#-instalacja-i-uruchomienie)
@@ -29,12 +29,12 @@ Aplikacja została podzielona na moduły, które odpowiadają za poszczególne z
   * Oś czasu z automatycznym skalowaniem.
   * Wizualna reprezentacja skoków i spadków poziomu cukru.
 * **Wyszukiwanie i filtrowanie:**
-  * Wyszukiwanie wpisów po konkretnej dacie lub przedziale czasowym.
+  * Wyszukiwanie wpisów po konkretnej dacie.
   * Możliwość filtrowania wyników po wartościach poziomu cukru.
 * **Trwałość danych:**
-  * Bezpieczny, lokalny zapis danych w formacie `.csv`.
-  * Architektura oparta na obiekcie `Store`, zapewniająca spójność danych we wszystkich widokach aplikacji.
-  * Moduł importu i eksportu bazy danych do plików zewnętrznych.
+  * Lokalny zapis danych w formacie `.csv`.
+  * Zarządzanie danymi przez objekt `SugarMeasurementsStore`, zapewniająca spójność danych we wszystkich widokach aplikacji.
+  * Możliwość importu i eksportu bazy danych do plików zewnętrznych.
 
 ---
 
@@ -54,7 +54,7 @@ Projekt został zbudowany w oparciu o nowoczesny stos technologiczny dla aplikac
 
 ##  Struktura i architektura
 
-Projekt realizuje podział na warstwę widoku (UI) oraz warstwę logiki biznesowej, wykorzystując wzorzec zarządzania stanem (Store). Drzewo plików prezentuje się następująco:
+Projekt realizuje podział na warstwę widoku (UI) oraz warstwę logiki biznesowej, wykorzystując SugarMeasurementsStore do zarządzania stanem danych. Drzewo plików prezentuje się następująco:
 
 ```text
 NPG_project/
@@ -79,14 +79,15 @@ NPG_project/
 │   ├── graph_ui.py
 │   ├── main_window.ui       
 │   ├── main_window_ui.py
+│   ├── measurements_list.ui
+│   ├── measurements_list_ui.py
 │   ├── search.ui            
 │   └── search_ui.py
 ├── .gitignore               # Plik konfiguracyjny Git
-├── footer_ui.py             # Zduplikowany plik interfejsu stopki (poza folderem ui)
 ├── main.py                  # Główny punkt wejścia aplikacji
 ├── README.md                # Dokumentacja projektu
 ├── requirements.txt         # Lista zależności systemowych
-└── saved_measurements.csv   # Lokalna baza danych (generowana po uruchomieniu, ignorowana przez Git)
+└── saved_measurements.csv   # Plik przechowujący wpisy użytkownika (generowana po uruchomieniu, ignorowana przez Git)
 ```
 ---
 
@@ -141,11 +142,12 @@ python main.py
 **4. Analiza wykresu i zakresu czasowego**
 * Panel po prawej stronie wyświetla wykres liniowy, który wizualizuje skoki i spadki poziomu cukru we krwi.
 * Poniżej wykresu znajdują się filtry **Od** oraz **Do**, które pozwalają zawęzić renderowane dane do określonego przedziału czasowego.
+* Filtry można wyłączyć przy użyciu checkbox'ów, które znajdują się obok nich.
 * Przycisk **Cały zakres** umożliwia szybki powrót do widoku obejmującego kompletną historię.
 
 **5. Zarządzanie bazą danych**
-* Przycisk **Exportuj** w dolnym menu pozwala na zgranie obecnej bazy pomiarów do zewnętrznego pliku.
-* Przycisk **Importuj** umożliwia wczytanie wcześniej zachowanej historii bezpośrednio do aplikacji.
+* Przycisk **Exportuj** w dolnym menu pozwala na zapisanie pomiarów z aplikacji do wskazanego przez użytkownika pliku w formacie **.csv**
+* Przycisk **Importuj** umożliwia wczytanie wcześniej zachowanej historii w formacie **.csv** bezpośrednio do aplikacji.
 
 ---
 
